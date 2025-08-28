@@ -10,3 +10,5 @@ langchain-community>=0.0.20
 transformers
 torch
 huggingface-hub
+google-generativeai
+langchain-google-genai

@@ -5,7 +5,7 @@ from typing import Dict, List, Any
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
-from langchain_community.llms import Together
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.chains import RetrievalQA
 import uuid
 
@@ -14,10 +14,10 @@ load_dotenv()
 class AIService:
     def __init__(self):
         self.logger = logging.getLogger(__name__)
-        self.together_api_key = os.getenv('TOGETHER_API_KEY')
+        self.together_api_key = os.getenv('GOOGLE_API_KEY')
         
         if not self.together_api_key:
-            raise ValueError("TOGETHER_API_KEY environment variable is required")
+            raise ValueError("GOOGLE_API_KEY environment variable is required")
         
         # Initialize embeddings (free HuggingFace model)
         self.embeddings = HuggingFaceEmbeddings(
@@ -26,12 +26,12 @@ class AIService:
         )
         
         # Initialize Together LLM
-        self.llm = Together(
-            model="meta-llama/Llama-3-8b-chat-hf",
+        self.llm = ChatGoogleGenerativeAI(
+            model="gemini-1.5-flash",  # or gemini-1.5-pro
             temperature=0.3,
-            together_api_key=os.getenv("TOGETHER_API_KEY"),
-            max_tokens=5000
+            google_api_key=os.getenv("GOOGLE_API_KEY")
         )
+
         
         # Text splitter for chunking
         self.text_splitter = RecursiveCharacterTextSplitter(
@@ -258,3 +258,24 @@ class AIService:
                     'answer': 'Please try again.'
                 }]
             }
+
+    def query_response(self, text: str) :
+        try :
+            vector_store = self.vectorStore
+            
+            qa_chain = RetrievalQA.from_chain_type(
+                llm=self.llm,
+                chain_type="stuff",
+                retriever=vector_store.as_retriever(search_kwargs={"k": 4}),
+                return_source_documents=False
+            )
+
+            result = qa_chain(text)
+            return result
+
+        except Exception as e:
+            self.logger.error(f"Error generating flashcards: {str(e)}")
+            return [{
+                'id': str(uuid.uuid4()),
+                'message' : "Something went wrong"
+            }]
