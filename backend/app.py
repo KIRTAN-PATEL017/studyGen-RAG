@@ -98,6 +98,23 @@ def process_pdf():
         logger.error(f"Unexpected error: {str(e)}")
         return jsonify({'error': 'An unexpected error occurred'}), 500
 
+
+@app.route('/api/query', methods=['POST'])
+def query_pdf():
+    try:
+        data = request.get_json()
+        if not data or 'message' not in data:
+            return jsonify({'error': 'Message is required'}), 400
+
+        user_message = data['message']
+        response = ai_service.query_response(user_message)
+        return jsonify({'response': response}), 200
+
+    except Exception as e:
+        logger.error(f"Error in query endpoint: {str(e)}")
+        return jsonify({'error': 'Failed to get response'}), 500
+
+
 @app.errorhandler(RequestEntityTooLarge)
 def too_large(e):
     return jsonify({'error': 'File too large. Maximum size is 4MB'}), 413

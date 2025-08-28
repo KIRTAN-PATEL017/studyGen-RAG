@@ -6,6 +6,7 @@ import ProcessingStatus from './components/ProcessingStatus';
 import Summary from './components/Summary';
 import Notes from './components/Notes';
 import Flashcards from './components/Flashcards';
+import ChatBot from './components/ChatBot';
 
 export type ProcessingStep = 'idle' | 'uploading' | 'processing' | 'generating' | 'completed' | 'error';
 
@@ -144,6 +145,8 @@ function App() {
                 <Flashcards flashcards={studyMaterial.flashcards} />
               </div>
             </div>
+
+            {(currentStep == 'completed') && <div> <ChatBot/> </div>}
           </div>
         )}
       </main>
