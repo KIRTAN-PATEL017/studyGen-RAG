@@ -55,7 +55,6 @@ def process_pdf():
             return jsonify({'error': 'Only PDF files are allowed'}), 400
         
         
-
         # Generate unique filename
         filename = secure_filename(file.filename)
         unique_filename = f"{uuid.uuid4()}_{filename}"

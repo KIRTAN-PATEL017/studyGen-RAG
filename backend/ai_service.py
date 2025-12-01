@@ -27,7 +27,7 @@ class AIService:
         
         # Initialize Together LLM
         self.llm = ChatGoogleGenerativeAI(
-            model="gemini-1.5-flash",  # or gemini-1.5-pro
+            model="models/gemini-2.5-flash",
             temperature=0.3,
             google_api_key=os.getenv("GOOGLE_API_KEY")
         )
