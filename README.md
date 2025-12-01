@@ -1,4 +1,7 @@
-# Study Notes Generator
+## Problem Solved
+The most challenging problem I solved recently was building a robust RAG pipeline for my "Chat with PDF" application. The most significant challenge involved was how to ensure that the LLM provided accurate, document-grounded responses, instead of hallucinating, when the information was dense or ambiguous in the PDF. I iterated through various chunking strategies, tested multiple Hugging Face embedding models, and fine-tuned the threshold of FAISS similarities to ensure consistent retrieval of high-quality context. Furthermore, I developed a mechanism for detecting low-confidence or out-of-scope questions to enable the system to decline gracefully instead of returning incorrect answers. Another major challenge was optimizing the PDF ingestion pipeline to avoid memory spikes or timeouts while processing large documents. After multiple rounds of testing and profiling, the final pipeline demonstrated reliable retrieval performance with significantly reduced hallucinations.
+
+## Study Notes Generator
 
 An AI-powered application that transforms PDF documents into comprehensive study materials including summaries, key notes, and interactive flashcards.
 
