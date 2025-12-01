@@ -129,6 +129,8 @@ npm run lint     # Run ESLint
 ![summary](assets/summary.png)
 ![Notes](assets/notes.png)
 ![Flashcard](assets/flashcard.png)
+![Chatbot](assets/responses1.png)
+![Chatbot](assets/responses2.png)
 
 
 
